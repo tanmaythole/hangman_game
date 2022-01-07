@@ -11,36 +11,37 @@
             <p class="output">{{game.guessed_word}}</p>
         </div>
 
-        <div class="buttons">
-            <form action="">
-                <button type="submit" class="btn btn-primary">A</button>
-                <button type="submit" class="btn btn-primary">B</button>
-                <button type="submit" class="btn btn-primary">C</button>
-                <button type="submit" class="btn btn-primary">D</button>
-                <button type="submit" class="btn btn-primary">E</button>
-                <button type="submit" class="btn btn-primary">F</button>
-                <button type="submit" class="btn btn-primary">G</button>
-                <button type="submit" class="btn btn-primary">H</button>
-                <button type="submit" class="btn btn-primary">I</button>
-                <button type="submit" class="btn btn-primary">J</button>
-                <button type="submit" class="btn btn-primary">K</button>
-                <button type="submit" class="btn btn-primary">L</button>
-                <button type="submit" class="btn btn-primary">M</button>
-                <button type="submit" class="btn btn-primary">N</button>
-                <button type="submit" class="btn btn-primary">O</button>
-                <button type="submit" class="btn btn-primary">P</button>
-                <button type="submit" class="btn btn-primary">Q</button>
-                <button type="submit" class="btn btn-primary">R</button>
-                <button type="submit" class="btn btn-primary">S</button>
-                <button type="submit" class="btn btn-primary">T</button>
-                <button type="submit" class="btn btn-primary">U</button>
-                <button type="submit" class="btn btn-primary">V</button>
-                <button type="submit" class="btn btn-primary">W</button>
-                <button type="submit" class="btn btn-primary">X</button>
-                <button type="submit" class="btn btn-primary">Y</button>
-                <button type="submit" class="btn btn-primary">Z</button>
+        <div class="buttons" id="{{ game.id }}">
+            <!-- <form > -->
+                <input type="hidden" name="csrf" value="{{ csrf_token }}">
+                <input type="button" class="btn btn-primary" value="A" >
+                <input type="button" class="btn btn-primary" value="B" >
+                <input type="button" class="btn btn-primary" value="C" >
+                <input type="button" class="btn btn-primary" value="D" >
+                <input type="button" class="btn btn-primary" value="E" >
+                <input type="button" class="btn btn-primary" value="F" >
+                <input type="button" class="btn btn-primary" value="G" >
+                <input type="button" class="btn btn-primary" value="H" >
+                <input type="button" class="btn btn-primary" value="I" >
+                <input type="button" class="btn btn-primary" value="J" >
+                <input type="button" class="btn btn-primary" value="K" >
+                <input type="button" class="btn btn-primary" value="L" >
+                <input type="button" class="btn btn-primary" value="M" >
+                <input type="button" class="btn btn-primary" value="N" >
+                <input type="button" class="btn btn-primary" value="O" >
+                <input type="button" class="btn btn-primary" value="P" >
+                <input type="button" class="btn btn-primary" value="Q" >
+                <input type="button" class="btn btn-primary" value="R" >
+                <input type="button" class="btn btn-primary" value="S" >
+                <input type="button" class="btn btn-primary" value="T" >
+                <input type="button" class="btn btn-primary" value="U" >
+                <input type="button" class="btn btn-primary" value="V" >
+                <input type="button" class="btn btn-primary" value="W" >
+                <input type="button" class="btn btn-primary" value="X" >
+                <input type="button" class="btn btn-primary" value="Y" >
+                <input type="button" class="btn btn-primary" value="Z" >
 
-            </form>
+            <!-- </form> -->
         </div>
 
         <div class="result">
@@ -48,4 +49,31 @@
         </div>
 
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script>
+        $('.btn').on('click', function(e){
+            game_id = e.target.parentElement.id;
+            inp = e.target.value;
+
+            $.ajax({
+                url: "/",
+                type: "POST",
+                data: {
+                    game_id: game_id,
+                    inp: inp,
+                    csrfmiddlewaretoken: $('#'+game_id+' input[name=csrf]').val()
+                },
+                success: function(data){
+                    console.log(data);
+                },
+                error: function(data){
+                    alert("Something Went Wrong!!");
+                }
+            })
+        })
+    </script>
 {% endblock body %}
