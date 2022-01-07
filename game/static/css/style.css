@@ -22,3 +22,15 @@ img.hangman-img{
     font-style: italic;
     color: red;
 }
+
+/* Modal */
+.modal-body{
+    text-align: center;
+}
+.modal-img {
+    width: 70%;
+}
+.modal-message{
+    padding: 20px 0;
+    font-size: 30px;
+}
