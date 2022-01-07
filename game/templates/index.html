@@ -11,35 +11,37 @@
             <p class="output">{{game.guessed_word}}</p>
         </div>
 
+        <div class="py-3 lives">Lives Remaining: <span style="font-size: 30px;" class="remaining-lives">{{game.lives}}</span></div>
+
         <div class="buttons" id="{{ game.id }}">
             <!-- <form > -->
                 <input type="hidden" name="csrf" value="{{ csrf_token }}">
-                <input type="button" class="btn btn-primary" value="A" >
-                <input type="button" class="btn btn-primary" value="B" >
-                <input type="button" class="btn btn-primary" value="C" >
-                <input type="button" class="btn btn-primary" value="D" >
-                <input type="button" class="btn btn-primary" value="E" >
-                <input type="button" class="btn btn-primary" value="F" >
-                <input type="button" class="btn btn-primary" value="G" >
-                <input type="button" class="btn btn-primary" value="H" >
-                <input type="button" class="btn btn-primary" value="I" >
-                <input type="button" class="btn btn-primary" value="J" >
-                <input type="button" class="btn btn-primary" value="K" >
-                <input type="button" class="btn btn-primary" value="L" >
-                <input type="button" class="btn btn-primary" value="M" >
-                <input type="button" class="btn btn-primary" value="N" >
-                <input type="button" class="btn btn-primary" value="O" >
-                <input type="button" class="btn btn-primary" value="P" >
-                <input type="button" class="btn btn-primary" value="Q" >
-                <input type="button" class="btn btn-primary" value="R" >
-                <input type="button" class="btn btn-primary" value="S" >
-                <input type="button" class="btn btn-primary" value="T" >
-                <input type="button" class="btn btn-primary" value="U" >
-                <input type="button" class="btn btn-primary" value="V" >
-                <input type="button" class="btn btn-primary" value="W" >
-                <input type="button" class="btn btn-primary" value="X" >
-                <input type="button" class="btn btn-primary" value="Y" >
-                <input type="button" class="btn btn-primary" value="Z" >
+                <input type="button" class="btn btn-primary inp-btn" value="A" >
+                <input type="button" class="btn btn-primary inp-btn" value="B" >
+                <input type="button" class="btn btn-primary inp-btn" value="C" >
+                <input type="button" class="btn btn-primary inp-btn" value="D" >
+                <input type="button" class="btn btn-primary inp-btn" value="E" >
+                <input type="button" class="btn btn-primary inp-btn" value="F" >
+                <input type="button" class="btn btn-primary inp-btn" value="G" >
+                <input type="button" class="btn btn-primary inp-btn" value="H" >
+                <input type="button" class="btn btn-primary inp-btn" value="I" >
+                <input type="button" class="btn btn-primary inp-btn" value="J" >
+                <input type="button" class="btn btn-primary inp-btn" value="K" >
+                <input type="button" class="btn btn-primary inp-btn" value="L" >
+                <input type="button" class="btn btn-primary inp-btn" value="M" >
+                <input type="button" class="btn btn-primary inp-btn" value="N" >
+                <input type="button" class="btn btn-primary inp-btn" value="O" >
+                <input type="button" class="btn btn-primary inp-btn" value="P" >
+                <input type="button" class="btn btn-primary inp-btn" value="Q" >
+                <input type="button" class="btn btn-primary inp-btn" value="R" >
+                <input type="button" class="btn btn-primary inp-btn" value="S" >
+                <input type="button" class="btn btn-primary inp-btn" value="T" >
+                <input type="button" class="btn btn-primary inp-btn" value="U" >
+                <input type="button" class="btn btn-primary inp-btn" value="V" >
+                <input type="button" class="btn btn-primary inp-btn" value="W" >
+                <input type="button" class="btn btn-primary inp-btn" value="X" >
+                <input type="button" class="btn btn-primary inp-btn" value="Y" >
+                <input type="button" class="btn btn-primary inp-btn" value="Z" >
 
             <!-- </form> -->
         </div>
@@ -55,7 +57,7 @@
     crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script>
-        $('.btn').on('click', function(e){
+        $('.inp-btn').on('click', function(e){
             game_id = e.target.parentElement.id;
             inp = e.target.value;
 
@@ -68,7 +70,17 @@
                     csrfmiddlewaretoken: $('#'+game_id+' input[name=csrf]').val()
                 },
                 success: function(data){
-                    console.log(data);
+                    $('.output').text(data.guessed_word);
+
+                    if(data.lives || data.lives==0){
+                        image_no = 6-data.lives;
+                        $('.hangman-img').attr("src", "static/images/hang"+image_no+".gif");
+                        $('.remaining-lives').text(data.lives)
+                    }
+
+                    if(data.status!=="ongoing"){
+                        alert("You " + data.status)
+                    }
                 },
                 error: function(data){
                     alert("Something Went Wrong!!");

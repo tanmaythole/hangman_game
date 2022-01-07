@@ -18,3 +18,7 @@ img.hangman-img{
     height: 50px;
     width: 50px;
 }
+.lives{
+    font-style: italic;
+    color: red;
+}
