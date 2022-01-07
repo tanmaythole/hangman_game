@@ -15,6 +15,7 @@ Hangman Game
             <div class="modal-body">
                 <img src="" class="modal-img" />
                 <h3 class="modal-message"></h3>
+                <p class="final-output"></p>
                 <a href="/" class="btn btn-success btn-lg">Play Again!!</a>
             </div>
         </div>
@@ -100,11 +101,13 @@ Hangman Game
                     if (data.status === 'win') {
                         $('.modal-title').text("Congrats!")
                         $('.modal-img').attr("src", "static/images/success.png")
+                        $('.final-output').text("You have successfully recognized word: "+data.word)
                         $('.modal-message').text("You Win!!")
                     }
                     else if (data.status === 'lose') {
                         $('.modal-title').text("OOPS!")
                         $('.modal-img').attr("src", "static/images/error.png")
+                        $('.final-output').text("The correct word is: "+data.word)
                         $('.modal-message').text("Better Luck Next Time!!")
                     }
                     $(document).ready(function () {

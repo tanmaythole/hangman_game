@@ -49,22 +49,25 @@ def index(request):
         game = Game.objects.filter(id=request.POST['game_id'])[0]
         inp = request.POST['inp'].lower()
         new_guess = update_guessed_word(game.word, game.guessed_word, inp)
+        word = ""
 
         if new_guess == 0:
             game.lives = game.lives - 1
             if game.lives == 0 or game.lives<0:
                 game.status = "lose"
+                word = game.word
             game.save()
-            return JsonResponse({"ans":False, "lives":game.lives, "status":game.status}, status=200)
+            return JsonResponse({"ans":False, "lives":game.lives, "status":game.status, "word":word}, status=200)
             
         else:
             game.guessed_word = new_guess
 
             if new_guess.lower() == game.word.lower() and game.lives>0:
                 game.status = "win"
+                word = game.word
             game.save()
 
-            return JsonResponse({"ans":True, "guessed_word":game.guessed_word, "status":game.status}, status=200)
+            return JsonResponse({"ans":True, "guessed_word":game.guessed_word, "status":game.status, "word":word}, status=200)
         
         return JsonResponse({}, 401)
         
