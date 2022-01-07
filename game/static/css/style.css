@@ -6,6 +6,7 @@ img.hangman-img{
     font-size: 50px;
     font-weight: 100;
     letter-spacing: 10px;
+    text-transform: uppercase;
 }
 .buttons{
     width: 80%;

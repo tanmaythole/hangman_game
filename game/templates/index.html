@@ -5,10 +5,10 @@
 {% block body %}
     {% load static %}
     <div class="container text-center">
-        <img src="/static/images/hang4.gif" alt="" class="p-4 hangman-img">
+        <img src="/static/images/hang{{ game.image }}.gif" alt="" class="p-4 hangman-img">
 
         <div class="py-3">
-            <p class="output">______</p>
+            <p class="output">{{game.guessed_word}}</p>
         </div>
 
         <div class="buttons">
