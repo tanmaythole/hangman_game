@@ -7,3 +7,4 @@ class Game(models.Model):
     guessed_word = models.CharField(max_length=20)
     status = models.CharField(max_length=10, default="ongoing")
     lives = models.IntegerField(default=6)
+    selected_words = models.JSONField("SelectedWords", default={"correct":[], "wrong":[]})

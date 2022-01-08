@@ -19,7 +19,7 @@ def get_guessed_word(word):
             guessed_word += c
         else:
             guessed_word += "_"
-    return guessed_word
+    return guessed_word, hint
 
 
 def update_guessed_word(word, guessed_word, inp):
@@ -39,11 +39,15 @@ def index(request):
 
     if request.method=='GET':
         word = get_word()
-        guessed_word = get_guessed_word(word)
+        guessed_word, hint = get_guessed_word(word)
         game = Game(word=word, guessed_word=guessed_word)
+
+        game.selected_words = {"correct":[hint[0], hint[1]], "wrong":[]}
+
         game.save()
         game.image = 6 - game.lives
-        return render(request, 'index.html', { 'game':game })
+        
+        return render(request, 'index.html', { 'game':game, 'inpList':['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'] })
         
     elif request.method=='POST':
         game = Game.objects.filter(id=request.POST['game_id'])[0]
@@ -53,14 +57,18 @@ def index(request):
 
         if new_guess == 0:
             game.lives = game.lives - 1
+            game.selected_words["wrong"].append(inp)
+
             if game.lives == 0 or game.lives<0:
                 game.status = "lose"
                 word = game.word
             game.save()
+
             return JsonResponse({"ans":False, "lives":game.lives, "status":game.status, "word":word}, status=200)
             
         else:
             game.guessed_word = new_guess
+            game.selected_words["correct"].append(inp)
 
             if new_guess.lower() == game.word.lower() and game.lives>0:
                 game.status = "win"
