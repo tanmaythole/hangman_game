@@ -8,7 +8,7 @@ Created Hangman Game in Django.
 
 # Technologies Used
 - Django (Python framework)
-- Bottstrap
+- Bootstrap
 - JavaScript
 - Ajax
 
